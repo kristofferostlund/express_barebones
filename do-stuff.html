@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html ng-app="app">
+	<head>
+		<title>Do stuff</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.2/angular.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/q.js/2.0.3/q.js"></script>
+	</head>
+	<body ng-controller="MainCtrl">
+		<textarea ng-model="content"></textarea>
+		<div ng-repeat="item in content">
+			{{ item.email }}
+		</div>
+		
+	</body>
+	<script>
+angular.module('app', [])
+.controller('MainCtrl', function ($scope, $http, $q) {
+	
+	$scope.sendReq = function (content, callback) {
+		console.log(content);
+		var deferred = $q.defer();
+		$http({
+			url: 'http://localhost:9000/api/prospects/add/remote',
+			method: 'PUT',
+			data: {'content': content}
+		})
+		.success(function (items) {
+			deferred.resolve(items);
+			if (callback != undefined) { callback(items); }
+		})
+		.error(function (err) {
+			deferred.reject(err);
+			if (callback != undefined) { callback(err); }
+		});
+		
+		return deferred.promise;
+	};
+	
+	var contents =[
+		{
+			$$hashKey: "object:59",
+			__v: 0,
+			_id: "55528bfb8b7d7a70532ab787",
+			area: "",
+			county: "Järfälla",
+			dateCreated: "2015-05-12T23:25:47.741Z",
+			dateWon: "2015-05-12T23:31:38.180Z",
+			email: "kristoffer.ostlund@gmail.com",
+			firstName: "Kristoffer",
+			lastName: "Östlund",
+			team: "",
+			tel: "+46722851736",
+			won: true
+		},{
+			$$hashKey: "object:21",
+			__v: 0,
+			_id: "5559d77866a35a741cada820",
+			area: "",
+			county: "Kronoberg",
+			dateCreated: "2015-05-16T15:30:12.935Z",
+			domain: "elmia.vilth.se",
+			email: "eros@denska.se",
+			firstName: "Eros",
+			lastName: "Denskasenwn",
+			team: "",
+			tel: "+46705842672",
+			won: false
+		}
+	];
+	
+	$scope.sendReq(contents, function (items) {
+		console.log(items);
+		$scope.content = items;
+	});
+		
+});
+	
+	</script>
+</html>

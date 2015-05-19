@@ -1,0 +1,16 @@
+{
+  "name": "express_bare",
+  "version": "0.0.0",
+  "authors": [
+    "Kristoffer Ostlund <kristoffer.ostlund@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {}
+}
